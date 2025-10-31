@@ -8,13 +8,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
-  int iemCount=1;
-  void counter() {
-    setState(() {
-      iemCount=iemCount+1;
-    });
+  final TextEditingController controller = TextEditingController();
+  double num1=0;
+  double num2=0;
+  double result=0;
+  void clearText() {
+    controller.clear(); // এই লাইনটি TextField-এর লেখা মুছে দেবে
   }
+  // void counter() {
+  //   setState(() {
+  //    num1+num2;
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,16 +30,43 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(iemCount.toString(),style: TextStyle(fontSize: 40),)
+           TextFormField(
+
+              onChanged: (value) {
+                setState(() {
+                  num1=double.parse(value);
+                });
+              },
+           ) ,
+            SizedBox(height: 10,),
+            TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  num2=double.parse(value);
+
+
+                });
+              },
+            ) ,
+           SizedBox(height: 10,),
+           ElevatedButton(onPressed: (){
+             setState(() {
+               result= num1+num2;
+
+             });
+             clearText();
+
+           },
+               child: Text('Add these')
+           ),
+            SizedBox(height: 10,),
+            Text('The Resust is ${result}'),
+
+
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            counter();
-          },
-        child:Text('+') ,
-      ),
+
     );
   }
 
