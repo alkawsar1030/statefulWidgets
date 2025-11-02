@@ -10,17 +10,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController controller = TextEditingController();
 
+  bool runNow=true;
   String item = "";
   List itemList=[];
+
   setItem(value){
     setState(() {
      item=value;
     });
   }
-  addItem(value){
+
+  addItem(item){
+
     setState(() {
       itemList.add(item);
     });
+    //item=null;
+
   }
 
   @override
@@ -32,23 +38,24 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextFormField(
-            //controller: controller,
+            controller: controller,
             onChanged: (value) {
               setItem(value);
-
-
-
-            },
+              },
           ),
+
           SizedBox(height: 5),
-          ElevatedButton(
-            onPressed: () {
 
-              addItem(item);
+           ElevatedButton(
 
-            },
-            child: Text('Add these'),
-          ),
+             onPressed: () {
+               if (controller.text.isEmpty) return;
+               addItem(item);
+               controller.clear();
+               },
+             child: Text('Add these'),
+           ),
+
           SizedBox(height: 5),
 
          SingleChildScrollView(
@@ -58,9 +65,13 @@ class _HomePageState extends State<HomePage> {
                shrinkWrap: true,
                itemCount: itemList.length,
                  itemBuilder: (context, index) {
-                 return ListTile(
-                   title: Text("(${index+1}) ${itemList[index]}"),
-                 );
+                 if(runNow){
+                   return ListTile(
+
+                     title: Text("(${index+1}) ${itemList[index]}"),
+                   );
+                 }
+
              
                  },
              ),
